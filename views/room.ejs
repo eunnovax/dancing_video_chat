@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:site_name" content="rhytmie">
+    <meta property="og:url" content="/">
+    <meta property="og:title" content="Catch rhythm and workout">
+    <meta property="og:description" content="Dance, workout, burn calories, and have fun">
+    <meta property="og:image" content="/imgs/winner.jpg">
+
+    <title>Dance Workout Class</title>
+    <script>
+        const ROOM_ID = "<%= roomId %>"
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.0/socket.io.js"></script> -->
+    <script src="/socket.io/socket.io.js" defer></script>
+    <!-- <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js" defer></script> -->
+    <script src="https://kit.fontawesome.com/75aaaf4fe9.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.2.0/addons/p5.sound.min.js"></script>
+    <script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+    <script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-3.4.0.js"></script>
+    <script src="https://unpkg.com/@ffmpeg/ffmpeg@0.9.5/dist/"></script>
+    <script src="https://unpkg.com/vanilla-sharing"></script>
+    <script src="sketch1.js" defer></script>
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=60782677c857750018604cee&product=inline-share-buttons' async='async'></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    
+    
+</head>
+<body>
+    <div class="main">
+        <div id="main-left" class="main-left">
+            <div id='main-videos' class="main-videos">
+                <div id="video-grid">
+                    <!-- <div id="me"></div> -->
+                    <div class="video-box">
+                        <div class="not-winner">
+                            <iframe id="warmup" class="responsive-iframe" src="https://www.youtube.com/embed/XPmBnnon0Ek?&autoplay=1&mute=1"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main_controls">
+                <div class="main_controls_block">
+                    <div onclick="muteUnmute()" class="main_controls_button main_mute_button">
+                        <i class="fas fa-microphone"></i>
+                        <span>Mute</span>
+                    </div>
+                    <div onclick="playStop()" class="main_controls_button main_video_button">
+                        <i class="fas fa-video"></i>
+                        <span>Stop Video</span>
+                    </div>
+                </div>
+                <div class="main_controls_block">
+                    <!-- <div class="main_controls_button">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security</span>
+                    </div> -->
+                    <div class="main_controls_button">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Participants</span>
+                    </div>
+                    <div id="download" class="main_download_button">
+                        <a id="linkload" href="">
+                            <i class="fas fa-download"></i>
+                            <span>Download Party</span>
+                        </a>
+                    </div>
+                    <div class="main_controls_button play_button">
+                        <div class="lds-grid">
+                            <div></div><div></div><div></div>
+                            <div></div><div></div><div></div>
+                            <div></div><div></div><div></div>
+                        </div>
+                    </div>
+                    <div onclick="recordParty()" class="main_controls_button record_button">
+                        <i class="record_meeting fas fa-record-vinyl"></i>
+                        <span>Record</span>
+                    </div>                    
+                    <div class="main_controls_button chat_btn">
+                        <i class="fas fa-comment-alt"></i>
+                        <span>Chat</span>
+                    </div>
+                    <div class="main_controls_button playlist_btn">
+                        <i class="fas fa-list"></i>
+                        <span>Playlist</span>
+                    </div>
+                </div>
+                <div class="main_controls_block">
+                    <a href='/thankyou' class="main_controls_button">
+                        <i class="leave fas fa-phone-slash"></i>
+                        <span class="leave_meeting">Leave Meeting</span>
+                    </a> 
+                </div>
+            </div>
+        </div>
+        <div id="main-right" class="main-right">
+            <!-- <div class="scoreboard" style="display: block;">
+                <table class="scoreboardTable">
+                    <thead class="scoreboardTableHead">
+                        <tr class="scoreboardTableHeadRow">
+                            <th> Ranking </th>
+                            <th> Name </th>
+                            <th> Score </th>
+                        </tr>
+                    </thead>
+                    <tbody class="scoreboardTable-Body">
+                        <tr class="scoreboardTableBodyRow">
+                            <td>1</td>
+                            <td>Max</td>
+                            <td>1200</td>
+                        </tr>
+                    </tbody>    
+                </table>
+            </div> -->
+            <div class="main_header">
+                <h6>Chat</h6>
+            </div>
+            <div class="main_chat_window">
+                <ul class="messages">
+
+                </ul>
+            </div>
+            <div class="main_message_container">
+                <input id="chat_message" type="text" placeholder="Type message here...">
+            </div>
+        </div>
+        <div id="main-playlist" class="main-playlist">
+            <div class="video-list">
+                <div class="video-item" id='cheapthrills' onclick='handlePlay(this, "https://youtube.com/embed/iL6ufJLkiUo?autoplay=1&mute=1&rel=0&showinfo=0&autohide=1")'>
+                    <div class="thumb">
+                        <img src="http://img.youtube.com/vi/iL6ufJLkiUo/0.jpg" alt="" />
+                    </div>
+                    <div class="desc">
+                        Sia - Cheap Thrills | The Fitness Marshall Dance Workout
+                    </div>
+                </div>  
+                <div class="video-item" id='dancemonkey' onclick="handlePlay(this, 'https://youtube.com/embed/r-7Z1Tg_Sbw?autoplay=1&mute=1&rel=0&showinfo=0&autohide=1')">
+                    <div class="thumb">
+                        <img src="http://img.youtube.com/vi/r-7Z1Tg_Sbw/0.jpg" alt="" />
+                    </div>
+                    <div class="desc">
+                        Tones and I - Dance Monkey | MYLEE Cardio Dance Workout
+                    </div>
+                </div>      
+                <div class="video-item" id='senorita' onclick="handlePlay(this, 'https://youtube.com/embed/7OO3rbH_VoM?autoplay=1&mute=1&rel=0&showinfo=0&autohide=1')">
+                    <div class="thumb">
+                        <img src="http://img.youtube.com/vi/7OO3rbH_VoM/0.jpg" alt="" />
+                    </div>
+                    <div class="desc">
+                        Señorita - Shawn Mendes | The Fitness Marshall Dance Workout
+                    </div>
+                </div>
+                <div class="video-item" id='yummy' onclick="handlePlay(this, 'https://youtube.com/embed/EoTsLtHoJRM?autoplay=1&mute=1&rel=0&showinfo=0&autohide=1')">
+                    <div class="thumb">
+                        <img src="http://img.youtube.com/vi/EoTsLtHoJRM/0.jpg" alt="" />
+                    </div>
+                    <div class="desc">
+                        Justin Bieber - Yummy | MYLEE Cardio Dance Workout
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal">
+            <div class="modal_content">
+                <span class="close">&times;</span>
+                <h2>Invite friends to this chat</h2>
+                <p id="url"></p>
+                <div class="btnContainer">
+                    <button onclick="handleCopy()" id="copyBtn">Copy link</button>
+                </div>
+            </div>
+        </div>
+        <div class="congrats">
+            <div class="congrats-content">
+                <span id="close" class="close">&times;</span>
+                <img src="/imgs/winner.jpg" alt=""/>
+                <!-- <h2>Congratulations</h2> -->
+                <img id="winImg" />
+                <!-- <div class="congrats-cal">
+                    <p>Calories burned</p>
+                </div>
+                <div class="congrats-pts">
+                    <p>Dance points earned</p>
+                </div> -->
+                <!-- <div class="congrats-btn">
+                    <button id="shareBtn">Share</button>
+                </div> -->
+                <div class="actionBtns">
+                    <div class="whatsapp">
+                        <a id="whatsapp" class="fa fa-whatsapp" href="" target="_blank"></a>
+                    </div>
+                    <div id="downloadDiv" class="downloadImg">
+                        <a id="downloadImg" class="fas fa-file-download" href="">Download Image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="connecting">
+            <div class="connecting-content">
+                <div class="lds-default">
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                    <div></div><div></div><div></div>
+                </div>  
+                <p>Connecting</p>  
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
